@@ -7,7 +7,7 @@ return {
         "MunifTanjim/nui.nvim",
     },
     config = function()
-        vim.keymap.set("n", "<Leader><Tab>", ":Neotree toggle<CR>", { desc = "Toggle file tree", silent = true })
+        vim.keymap.set("n", "<Leader><Tab>", ":Neotree toggle<CR>", { desc = "打开或关闭文件树", silent = true })
 
         -- / 搜索过滤  l 文件=打开/目录=进入  h/BS 返回上级  a 新建
 
@@ -40,9 +40,9 @@ return {
             source_selector = {
                 winbar = true,
                 sources = {
-                    { source = "filesystem", display_name = "   󰉓 Files " },
-                    { source = "buffers", display_name = "   󰈚 Buffers " },
-                    { source = "git_status", display_name = "    Git " },
+                    { source = "filesystem", display_name = "   󰉓 文件 " },
+                    { source = "buffers", display_name = "   󰈚 缓冲区 " },
+                    { source = "git_status", display_name = "    Git 状态 " },
                 },
             },
             window = {

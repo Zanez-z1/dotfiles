@@ -49,13 +49,13 @@ return {
       local keymap = vim.keymap -- for conciseness
       local builtin = require("telescope.builtin")
 
-      keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Fuzzy find files in cwd" })
-      keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "Fuzzy find recent files" })
-      keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
-      keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
-      keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Find string in cwd" })
-      keymap.set("n", "<leader>fc", builtin.grep_string, { desc = "Find string under cursor in cwd" })
-      keymap.set("n", "<leader>ft", builtin.filetypes, { desc = "Select filetype (VSCode-like)" })
+      keymap.set("n", "<leader>ff", builtin.find_files, { desc = "查找当前目录中的文件" })
+      keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "查找最近打开的文件" })
+      keymap.set('n', '<leader>fb', builtin.buffers, { desc = '查找已打开的缓冲区' })
+      keymap.set('n', '<leader>fh', builtin.help_tags, { desc = '查找 Neovim 帮助主题' })
+      keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "搜索当前目录中的文字" })
+      keymap.set("n", "<leader>fc", builtin.grep_string, { desc = "搜索光标下的单词" })
+      keymap.set("n", "<leader>ft", builtin.filetypes, { desc = "选择当前文件类型" })
     end,
   },
 }

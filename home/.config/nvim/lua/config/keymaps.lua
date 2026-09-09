@@ -36,7 +36,7 @@ vim.keymap.set('n', '<C-p>', ':cp<CR>', { silent = true })      -- 上一个错�
 -- Neovim 默认的 Leader 键是反斜杠 \
 -- 如果你想改成空格（现在的流行做法），取消下面这行的注释：
 
-vim.keymap.set('n', '<Leader>q', ':cclose<CR>', { silent = true }) -- 关闭错误窗口
+vim.keymap.set('n', '<Leader>q', ':cclose<CR>', { silent = true, desc = '关闭错误列表' }) -- 关闭错误窗口
 -----------------------------------------------------------
 -- C 文件专属设置 (Autocmd 自动命令)
 -----------------------------------------------------------
@@ -60,18 +60,63 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('UserLspConfig', {}),
     callback = function(ev)
-        local opts = { buffer = ev.buf }
-        
         -- <leader>gd: 跳转到定义
-        vim.keymap.set('n', '<leader>gd', vim.lsp.buf.definition, opts)
+        vim.keymap.set('n', '<leader>gd', vim.lsp.buf.definition,
+            { buffer = ev.buf, desc = '跳转到定义' })
         
         -- <leader>gr: 列出引用 (使用 Telescope)
-        vim.keymap.set('n', '<leader>gr', require('telescope.builtin').lsp_references, opts)
+        vim.keymap.set('n', '<leader>gr', require('telescope.builtin').lsp_references,
+            { buffer = ev.buf, desc = '查找所有引用' })
         
         -- <leader>rn: 重命名符号
-        vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+        vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename,
+            { buffer = ev.buf, desc = '重命名符号' })
         
         -- <leader>ca: 代码修复/Code Action (支持 Normal 和 Visual 模式)
-        vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
+        vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action,
+            { buffer = ev.buf, desc = '执行代码操作或快速修复' })
     end,
 })
+
+-----------------------------------------------------------
+-- 按需查看诊断：默认隐藏，主动操作时才显示
+-----------------------------------------------------------
+vim.keymap.set('n', '<leader>e', function()
+    vim.diagnostic.open_float(nil, {
+        scope = 'cursor',
+        focus = false,
+        border = 'rounded',
+        source = 'if_many',
+    })
+end, { desc = '查看光标处诊断' })
+
+vim.keymap.set('n', ']d', function()
+    vim.diagnostic.jump({ count = 1, float = true })
+end, { desc = '下一个诊断' })
+
+vim.keymap.set('n', '[d', function()
+    vim.diagnostic.jump({ count = -1, float = true })
+end, { desc = '上一个诊断' })
+
+local diagnostics_visible = false
+
+vim.keymap.set('n', '<leader>td', function()
+    diagnostics_visible = not diagnostics_visible
+
+    vim.diagnostic.config({
+        virtual_text = diagnostics_visible and {
+            spacing = 2,
+            source = 'if_many',
+        } or false,
+        virtual_lines = false,
+        signs = diagnostics_visible,
+        underline = diagnostics_visible,
+        update_in_insert = false,
+        severity_sort = true,
+    })
+
+    vim.notify(
+        diagnostics_visible and '诊断显示：开启' or '诊断显示：关闭',
+        vim.log.levels.INFO
+    )
+end, { desc = '切换诊断显示' })

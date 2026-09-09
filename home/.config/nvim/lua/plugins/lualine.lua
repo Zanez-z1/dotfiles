@@ -12,7 +12,7 @@ return {
         extensions = { "nvim-tree" },
         sections = {
             lualine_a = { "mode" },
-            lualine_b = { "branch", "diff", "diagnostics" },
+            lualine_b = { "branch", "diff" },
             lualine_c = { "filename" },
             lualine_x = { "filesize", "encoding", "filetype" },
             lualine_y = { "progress" },

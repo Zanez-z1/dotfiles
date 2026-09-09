@@ -71,9 +71,15 @@ return {
         })
 
         -- 4. 全局诊断样式配置
+        -- 默认只在后台收集诊断，不在编辑界面常驻显示。
+        -- 需要时使用 <leader>e 查看当前位置，或 <leader>td 切换全局显示。
         vim.diagnostic.config({
-            virtual_text = true,
+            virtual_text = false,
+            virtual_lines = false,
+            signs = false,
+            underline = false,
+            update_in_insert = false,
+            severity_sort = true,
         })
     end
 }
-
